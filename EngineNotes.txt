@@ -7,3 +7,9 @@ Stats:
 [5] = Luck
 [6] = Defence
 [7] = Resistance
+
+Positions:
+0 = Null (Default value)
+1 - 3 = Party Members (3 Party Members)
+4 - 7 = Enemies (No more than 4 enemies)
+
