@@ -2,8 +2,8 @@ package data;
 
 public class PartyMember
 {
-    String name;
-    int stats []; // Stats in EngineNotes.txt
+    public String name;
+    public int stats []; // Stats in EngineNotes.txt
 
     public PartyMember(String name, int stats[])
     {

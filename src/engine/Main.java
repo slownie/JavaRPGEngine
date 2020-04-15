@@ -40,9 +40,10 @@ public class Main
             *  If position is between 4 and 7, its the Enemy's Turn
             *  The last statement shouldn't happen
             */
-            if (position > 0 && position < 4)
+            if (position >= 0 && position < 3)
             {
                 System.out.println("Player Turn");
+                System.out.println(party.get(position).name+" \nHP: "+party.get(position).stats[0]);
                 command = sc.nextInt();
             } else if (position >= 4 && position < 8) {
                 System.out.println("Enemy Turn");
