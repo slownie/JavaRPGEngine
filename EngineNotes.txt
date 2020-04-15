@@ -1,0 +1,9 @@
+Stats:
+[0] = Health Points
+[1] = Magic Points
+[2] = Attack
+[3] = Magic
+[4] = Speed
+[5] = Luck
+[6] = Defence
+[7] = Resistance
