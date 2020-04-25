@@ -1,57 +1,75 @@
 package engine;
 
 import java.util.Scanner;
-import java.util.ArrayList;
-
-import data.PartyMember;
-import data.Enemy;
 
 public class Main
 {
     public static void main (String [] args)
     {
-        // Game Flow Variables
-        int turnNumber = 1; // 1 by default
-        int position = 0; // 0 by default
-        int command;
+        // Engine Variables
+        int turnNumber = 1;
+        boolean playerPhase = true; // Since its 1 v 1, no need for positions
+        int input; // User's input
 
-        @SuppressWarnings("resource")
+        // Player Variables
+        String pName = "Player";
+        int [] pStats = {20, 14, 5, 5, 4, 3, 3, 1};
+
+        // Enemy Variables
+        String eName = "Enemy";
+        int [] eStats = {8, 10, 7, 0, 2, 2, 1, 1};
+
         Scanner sc = new Scanner(System.in);
-
-        ArrayList<PartyMember> party = new ArrayList<>();
-        ArrayList<Enemy> enemies = new ArrayList<>();
-
-        // Create your Party Members and Enemies here!!
-        String p1Name = "Warrior";
-        int p1Stats [] = {10, 5, 6, 0, 2, 3, 4, 2};
-        party.add(new PartyMember(p1Name, p1Stats));
-
-        String e1Name = "Slime";
-        int e1Stats [] = {5, 0, 5, 0, 1, 3, 2, 1};
-        enemies.add(new Enemy(e1Name, e1Stats));
-
 
         // Battle Loop
         while (true)
         {
-            System.out.println("Turn Number: "+turnNumber);
-
-            /* If position is between 1 and 3, its the Player's Turn
-            *  If position is between 4 and 7, its the Enemy's Turn
-            *  The last statement shouldn't happen
-            */
-            if (position >= 0 && position < 3)
+            if (playerPhase)
             {
-                System.out.println("Player Turn");
-                System.out.println(party.get(position).name+" \nHP: "+party.get(position).stats[0]);
-                command = sc.nextInt();
-            } else if (position >= 4 && position < 8) {
-                System.out.println("Enemy Turn");
-                turnNumber += 1;
+                // Player Phase
+                System.out.println("Enter a command: 1) Attack, 2) Skills, 3) Items, 4) Escape");
+                input = sc.nextInt();
+
+                switch (input)
+                {
+                    //Attack
+                    case 1:
+                        attack(pName, pStats, eName, eStats);
+                        break;
+                    // Skills
+                    case 2:
+                        break;
+                    //Items
+                    case 3:
+                        break;
+                    //Escape
+                    case 4:
+                        break;
+
+                    // Invalid Input
+                    default:
+                        System.out.println("Error: Invalid Input");
+                        break;
+                }
+                playerPhase = false;
+
             } else {
-                System.out.println("Error: Invalid Position Value");
-                System.exit(0);
+                // Enemy Phase
             }
         }
+    }
+
+    static void attack(String aName, int [] aStats, String bName, int [] bStats)
+    {
+        // Damage calculations
+        int damage = aStats[2] - bStats[6]; // Damage calculation is a.atk - b.def
+        if (damage < 0) damage = 0; // Prevents damage from being negative
+        bStats[0] -= damage;
+        if (bStats[0] < 0) bStats[0] = 0; // Prevents hp from being negative
+
+        // Print statements
+        System.out.println(aName+" attacks!");
+        System.out.println(bName+" takes "+damage+" damage.");
+        System.out.println(bName+"has "+bStats[0]+" HP left.");
     }
 }
