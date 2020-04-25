@@ -17,7 +17,7 @@ public class Main
 
         // Enemy Variables
         String eName = "Enemy";
-        int [] eStats = {8, 10, 7, 0, 2, 2, 1, 1};
+        int [] eStats = {8, 10, 6, 0, 2, 2, 1, 1};
 
         Scanner sc = new Scanner(System.in);
 
@@ -27,7 +27,8 @@ public class Main
             if (playerPhase)
             {
                 // Player Phase
-                System.out.println("Enter a command: 1) Attack, 2) Skills, 3) Items, 4) Escape");
+                System.out.println("===Player Phase===");
+                System.out.println("1) Attack, 2) Skills, 3) Items, 4) Escape\nEnter a command:");
                 input = sc.nextInt();
 
                 switch (input)
@@ -51,10 +52,15 @@ public class Main
                         System.out.println("Error: Invalid Input");
                         break;
                 }
+                if (eStats[0] == 0) break;
                 playerPhase = false;
 
             } else {
                 // Enemy Phase
+                System.out.println("===Enemy Phase===");
+                attack(eName, eStats, pName, pStats); // AI what's that?
+                if (pStats[0] == 0) break;
+                playerPhase = true;
             }
         }
     }
@@ -70,6 +76,6 @@ public class Main
         // Print statements
         System.out.println(aName+" attacks!");
         System.out.println(bName+" takes "+damage+" damage.");
-        System.out.println(bName+"has "+bStats[0]+" HP left.");
+        System.out.println(bName+" has "+bStats[0]+" HP left.");
     }
 }
