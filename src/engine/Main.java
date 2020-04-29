@@ -40,6 +40,7 @@ public class Main
                     //Attack
                     case 1:
                         attack(pName, pStats, eName, eStats);
+                        playerPhase = false;
                         break;
                     // Skills
                     case 2:
@@ -50,11 +51,14 @@ public class Main
                         {
                             case 1:
                                 skill(pName, pStats, eName, eStats, s1.name, s1.type);
+                                playerPhase = false;
                                 break;
                             case 2:
                                 System.out.println(pName+" casts Heal!");
+                                playerPhase = false;
                                 break;
                             case 3:
+                                break;
 
                             default:
                                 System.out.println("Error: Invalid Input");
@@ -75,7 +79,6 @@ public class Main
                         break;
                 }
                 if (eStats[0] == 0) break;
-                playerPhase = false;
 
             } else {
                 // Enemy Phase
@@ -136,6 +139,7 @@ public class Main
 
             // HP Restore
             case 2:
+
         }
     }
 
