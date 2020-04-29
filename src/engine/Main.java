@@ -15,13 +15,17 @@ public class Main
 
         // Player Variables
         String pName = "Player";
-        int [] pStats = {20, 14, 5, 5, 4, 3, 3, 1};
-        Skill s1 = new Skill("Fire", 1);
-        Skill s2 = new Skill("Heal", 2);
+        int [] pStats = {20, 14, 5, 5, 4, 3, 3, 1}; // These are modifiable
+        Skill s1 = new Skill("Fire", 1, 3);
 
         // Enemy Variables
         String eName = "Enemy";
         int [] eStats = {8, 10, 6, 0, 2, 2, 1, 0};
+
+        // Final Stats
+        // These are used to ensure the HP and MP stats don't go past their intended values
+        final int [] pBaseStats = {20, 14};
+        final int [] eBaseStats = {8, 10};
 
         Scanner sc = new Scanner(System.in);
 
@@ -32,6 +36,8 @@ public class Main
             {
                 // Player Phase
                 System.out.println("===Player Phase===");
+                System.out.println(pName+": HP - "+pStats[0]+"/"+pBaseStats[0]+" MP - "+pStats[1]+"/"+pBaseStats[1]);
+                System.out.println(eName+": HP - "+eStats[0]+"/"+eBaseStats[0]+" MP - "+eStats[1]+"/"+eBaseStats[1]);
                 System.out.println("1) Attack, 2) Skills, 3) Items, 4) Escape\nEnter a command:");
                 input = sc.nextInt();
 
@@ -50,8 +56,12 @@ public class Main
                         switch (input)
                         {
                             case 1:
-                                skill(pName, pStats, eName, eStats, s1.name, s1.type);
-                                playerPhase = false;
+                                if (pStats[1] < s1.cost) {
+                                    System.out.println("Need more MP!");
+                                } else {
+                                    skill(pName, pStats, eName, eStats, s1.name, s1.type, s1.cost);
+                                    playerPhase = false;
+                                }
                                 break;
                             case 2:
                                 System.out.println(pName+" casts Heal!");
@@ -104,7 +114,7 @@ public class Main
         System.out.println(bName+" has "+bStats[0]+" HP left.");
     }
 
-    static void skill(String aName, int [] aStats, String bName, int [] bStats, String sName, int sType)
+    static void skill(String aName, int [] aStats, String bName, int [] bStats, String sName, int sType, int sCost)
     {
         int damage;
 
@@ -126,6 +136,7 @@ public class Main
 
             // Magic Damage
             case 1:
+                aStats[1] -= sCost;
                 damage = aStats[3] - bStats[7]; // Damage calculation is a.mag - b.res
                 if (damage < 0) damage = 0; // Prevents damage from being negative
                 bStats[0] -= damage;
