@@ -1,5 +1,7 @@
 package engine;
 
+import data.Skill;
+
 import java.util.Scanner;
 
 public class Main
@@ -14,10 +16,12 @@ public class Main
         // Player Variables
         String pName = "Player";
         int [] pStats = {20, 14, 5, 5, 4, 3, 3, 1};
+        Skill s1 = new Skill("Fire", 1);
+        Skill s2 = new Skill("Heal", 2);
 
         // Enemy Variables
         String eName = "Enemy";
-        int [] eStats = {8, 10, 6, 0, 2, 2, 1, 1};
+        int [] eStats = {8, 10, 6, 0, 2, 2, 1, 0};
 
         Scanner sc = new Scanner(System.in);
 
@@ -39,12 +43,30 @@ public class Main
                         break;
                     // Skills
                     case 2:
+                        // Place holder, I'll have it list actual skill names later
+                        System.out.println("1) Fire, 2) Heal, 3) Go Back");
+                        input = sc.nextInt();
+                        switch (input)
+                        {
+                            case 1:
+                                skill(pName, pStats, eName, eStats, s1.name, s1.type);
+                                break;
+                            case 2:
+                                System.out.println(pName+" casts Heal!");
+                                break;
+                            case 3:
+
+                            default:
+                                System.out.println("Error: Invalid Input");
+                                break;
+                        }
                         break;
                     //Items
                     case 3:
                         break;
                     //Escape
                     case 4:
+
                         break;
 
                     // Invalid Input
@@ -77,5 +99,53 @@ public class Main
         System.out.println(aName+" attacks!");
         System.out.println(bName+" takes "+damage+" damage.");
         System.out.println(bName+" has "+bStats[0]+" HP left.");
+    }
+
+    static void skill(String aName, int [] aStats, String bName, int [] bStats, String sName, int sType)
+    {
+        int damage;
+
+        switch (sType)
+        {
+            // Physical Damage
+            case 0:
+                // Damage calculations
+                damage = aStats[2] - bStats[6]; // Damage calculation is a.atk - b.def
+                if (damage < 0) damage = 0; // Prevents damage from being negative
+                bStats[0] -= damage;
+                if (bStats[0] < 0) bStats[0] = 0; // Prevents hp from being negative
+
+                // Print statements
+                System.out.println(aName+" does "+sName+"!");
+                System.out.println(bName+" takes "+damage+" damage.");
+                System.out.println(bName+" has "+bStats[0]+" HP left.");
+                break;
+
+            // Magic Damage
+            case 1:
+                damage = aStats[3] - bStats[7]; // Damage calculation is a.mag - b.res
+                if (damage < 0) damage = 0; // Prevents damage from being negative
+                bStats[0] -= damage;
+                if (bStats[0] < 0) bStats[0] = 0; // Prevents hp from being negative
+
+                // Print statements
+                System.out.println(aName+" casts "+sName+"!");
+                System.out.println(bName+" takes "+damage+" damage.");
+                System.out.println(bName+" has "+bStats[0]+" HP left.");
+                break;
+
+            // HP Restore
+            case 2:
+        }
+    }
+
+    static boolean escape(int [] aStats, int [] bStats)
+    {
+        // Escape calculation, if user's speed is greater than the enemy's speed + 3
+        if (aStats[4] > bStats[4] + 3) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
