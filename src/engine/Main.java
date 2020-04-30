@@ -1,8 +1,12 @@
 package engine;
 
+import data.PartyMember;
+import data.Enemy;
 import data.Skill;
 
+import java.lang.reflect.Array;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main
 {
@@ -17,6 +21,7 @@ public class Main
         String pName = "Player";
         int [] pStats = {20, 14, 5, 5, 4, 3, 3, 1}; // These are modifiable
         Skill s1 = new Skill("Fire", 1, 3);
+        Skill s2 = new Skill("Heal", 2, 5);
 
         // Enemy Variables
         String eName = "Enemy";
@@ -59,12 +64,17 @@ public class Main
                                 if (pStats[1] < s1.cost) {
                                     System.out.println("Need more MP!");
                                 } else {
-                                    skill(pName, pStats, eName, eStats, s1.name, s1.type, s1.cost);
+                                    skill(pName, pStats, eName, eStats, s1.name, s1.type, s1.cost, pBaseStats);
                                     playerPhase = false;
                                 }
                                 break;
                             case 2:
-                                System.out.println(pName+" casts Heal!");
+                                if (pStats[1] < s2.cost) {
+                                    System.out.println("Need more MP!");
+                                } else {
+                                    skill(pName, pStats, eName, eStats, s2.name, s2.type, s2.cost, pBaseStats);
+                                    playerPhase = false;
+                                }
                                 playerPhase = false;
                                 break;
                             case 3:
@@ -114,7 +124,7 @@ public class Main
         System.out.println(bName+" has "+bStats[0]+" HP left.");
     }
 
-    static void skill(String aName, int [] aStats, String bName, int [] bStats, String sName, int sType, int sCost)
+    static void skill(String aName, int [] aStats, String bName, int [] bStats, String sName, int sType, int sCost, int maxStats [])
     {
         int damage;
 
@@ -150,7 +160,23 @@ public class Main
 
             // HP Restore
             case 2:
+                aStats[0] += 5; // HP is restored at a set rate, maybe change this later?
+                if (aStats[0] > maxStats[0]) aStats[0] = maxStats[0]; // Prevents the player from going past their max hp
 
+                // Print statements
+                System.out.println(aName+" casts "+sName+"!");
+                System.out.println(aName+" restores 5 HP!");
+                System.out.println(aName+" has "+aStats[0]+" HP left.");
+                break;
+
+            // Stat Buff
+            case 3:
+                break;
+
+            // This shouldn't happen
+            default:
+                System.out.println("Error: Invalid Skill Type");
+                break;
         }
     }
 
