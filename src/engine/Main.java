@@ -3,6 +3,7 @@ package engine;
 import data.PartyMember;
 import data.Enemy;
 import data.Skill;
+import data.Item;
 
 import java.lang.reflect.Array;
 import java.util.Scanner;
