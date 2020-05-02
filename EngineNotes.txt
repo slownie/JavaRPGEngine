@@ -21,3 +21,7 @@ Skill Types:
 4 = Stat Debuff
 5 = Status Effect
 
+Item Types:
+0 = HP Restore
+1 = MP Restore
+

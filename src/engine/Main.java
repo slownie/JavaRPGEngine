@@ -17,6 +17,7 @@ public class Main
         int turnNumber = 1;
         boolean playerPhase = true; // Since its 1 v 1, no need for positions
         int input; // User's input
+        boolean escapeSuccess = false;
 
         // Player Variables
         String pName = "Player";
@@ -24,14 +25,19 @@ public class Main
         Skill s1 = new Skill("Fire", 1, 3);
         Skill s2 = new Skill("Heal", 2, 5);
 
+        ArrayList<Item> inventory = new ArrayList<Item>();
+        Item i1 = new Item("Potion", 1, 2);
+        Item i2 = new Item("Ether", 2, 1);
+
         // Enemy Variables
         String eName = "Enemy";
-        int [] eStats = {8, 10, 6, 0, 2, 2, 1, 0};
+        int [] eStats = {8, 10, 6, 0, 5, 2, 1, 0};
 
         // Final Stats
         // These are used to ensure the HP and MP stats don't go past their intended values
         final int [] pBaseStats = {20, 14};
         final int [] eBaseStats = {8, 10};
+
 
         Scanner sc = new Scanner(System.in);
 
@@ -54,6 +60,7 @@ public class Main
                         attack(pName, pStats, eName, eStats);
                         playerPhase = false;
                         break;
+
                     // Skills
                     case 2:
                         // Place holder, I'll have it list actual skill names later
@@ -86,12 +93,17 @@ public class Main
                                 break;
                         }
                         break;
+
                     //Items
                     case 3:
+                        //Place holder, I'll have it list actual item names later
+
                         break;
+
                     //Escape
                     case 4:
-
+                        escapeSuccess = escape(pName, pStats, eName, eStats);
+                        playerPhase = false;
                         break;
 
                     // Invalid Input
@@ -99,7 +111,10 @@ public class Main
                         System.out.println("Error: Invalid Input");
                         break;
                 }
-                if (eStats[0] == 0) break;
+
+                // Break checks
+                if (pStats[0] == 0 || eStats[0] == 0) break;
+                if (escapeSuccess) break;
 
             } else {
                 // Enemy Phase
@@ -181,12 +196,16 @@ public class Main
         }
     }
 
-    static boolean escape(int [] aStats, int [] bStats)
+    static boolean escape(String aName, int [] aStats, String bName, int [] bStats)
     {
-        // Escape calculation, if user's speed is greater than the enemy's speed + 3
-        if (aStats[4] > bStats[4] + 3) {
+        System.out.println(aName+" attempts to escape!");
+        // Speed calculation, a.spd > b.spd + 3
+        if (aStats[4] > bStats[4] + 3)
+        {
+            System.out.println("Escape successful!");
             return true;
         } else {
+            System.out.println("Escape failed!");
             return false;
         }
     }
