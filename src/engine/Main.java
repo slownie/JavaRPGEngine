@@ -17,7 +17,7 @@ public class Main
         int turnNumber = 1;
         boolean playerPhase = true; // Since its 1 v 1, no need for positions
         int input; // User's input
-        boolean escapeSuccess = false;
+        boolean escapeSuccess = false; // Used for the escape command
 
         // Player Variables
         String pName = "Player";
@@ -76,6 +76,7 @@ public class Main
                                     playerPhase = false;
                                 }
                                 break;
+
                             case 2:
                                 if (pStats[1] < s2.cost) {
                                     System.out.println("Need more MP!");
@@ -97,7 +98,20 @@ public class Main
                     //Items
                     case 3:
                         //Place holder, I'll have it list actual item names later
+                        System.out.println("1) Potion, 2) Ether, 3) Go Back");
+                        input = sc.nextInt();
+                        switch (input)
+                        {
+                            case 1:
+                                if (i1.quantity <= 0) {
+                                    System.out.println("");
+                                }
+                                break;
 
+                            default:
+                                System.out.println("Error: Invalid Input");
+                                break;
+                        }
                         break;
 
                     //Escape
@@ -185,8 +199,15 @@ public class Main
                 System.out.println(aName+" has "+aStats[0]+" HP left.");
                 break;
 
-            // Stat Buff
+            // MP Restore, Items only!
             case 3:
+                aStats[1] += 5; // MP is restored at a set rate, maybe change this later?
+                if (aStats[1] > maxStats[1]) aStats[1] = maxStats[1]; // Prevents the player from going past their max hp
+
+                // Print statements
+                System.out.println(aName+" uses "+sName+"!");
+                System.out.println(aName+" restores 5 MP!");
+                System.out.println(aName+" has "+aStats[1]+" HP left.");
                 break;
 
             // This shouldn't happen

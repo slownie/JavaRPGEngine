@@ -13,15 +13,14 @@ Positions:
 3 - 6 = Enemies (No more than 4 enemies)
 There's probably some better way to do this
 
-Skill Types:
+Skill/Item Types:
 0 = Physical Damage
 1 = Magic Damage
 2 = HP Restore
-3 = Stat Buff
-4 = Stat Debuff
-5 = Status Effect
+3 = MP Restore
+4 = Stat Buff
+5 = Stat Debuff
+6 = Status Effect
 
-Item Types:
-0 = HP Restore
-1 = MP Restore
+
 
