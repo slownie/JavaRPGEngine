@@ -12,7 +12,6 @@ public class Main
         PTURN, // Player Turn
         ACTION, // Action
         ETURN, // Enemy Turn
-        BEND, // Battle End
     }
 
     public static void main (String [] args)
@@ -24,6 +23,7 @@ public class Main
         State currentState = State.INTRO;
         int turnNumber = 1;
         int input; // Player Input
+        int victory = 0; // 0 = no victory, 1 = Player victory, 2 = Enemy victory
 
 
         // Player Stats
@@ -33,11 +33,11 @@ public class Main
 
         // Enemy Stats
         String eName = "Enemy";
-        int [] eBStats = {4, 0, 5, 0, 2, 3, 0}; // Base Stats
-        int [] eCStats = {4, 0, 5, 0, 2, 3, 0}; // Current Stats
+        int [] eBStats = {4, 0, 5, 0, 2, 3, 2}; // Base Stats
+        int [] eCStats = {4, 0, 5, 0, 2, 3, 2}; // Current Stats
 
         // Battle Loop
-        while (true)
+        while (victory == 0)
         {
             switch(currentState)
             {
@@ -64,9 +64,9 @@ public class Main
                 case PTURN:
                 {
                     // Displays turn number and health
-                    System.out.println("Turn: "+turnNumber);
-                    System.out.println("["+pName+" - HP: "+pBStats[0]+"/"+pCStats[0]+"]");
-                    System.out.println("["+eName+" - HP: "+eBStats[0]+"/"+eCStats[0]+"]");
+                    System.out.println("Turn: " + turnNumber);
+                    System.out.println("[" + pName + " - HP: " + pCStats[0] + "/" + pBStats[0] + "]");
+                    System.out.println("[" + eName + " - HP: " + eCStats[0] + "/" + eBStats[0] + "]");
 
                     System.out.println("===Player Phase===");
                     System.out.println("Enter a command:\n1) Attack 2) Skills 3) Items 4) Escape");
@@ -74,12 +74,71 @@ public class Main
 
                     switch (input)
                     {
-                        
-                    }
-                    break;
+                        // Attack
+                        case 1: {
+                            attack(pName, pCStats, eName, eCStats);
+                            break;
+                        }
 
+                        // Skill Menu
+                        case 2:
+                        {
+                            break;
+                        }
+                    }
+
+                    // Victory check
+                    if (eCStats[0] == 0)
+                    {
+                        victory = 1;
+                        break;
+                    } else {
+                        currentState = State.ETURN;
+                        break;
+                    }
+                }
+
+                // Enemy Turn
+                case ETURN:
+                {
+                    System.out.println("===Enemy Phase===");
+                    // AI? What's that?
+                    attack(eName, eCStats, pName, pCStats);
+
+
+                    // Defeat check
+                    if (pCStats[0] == 0)
+                    {
+                        victory = 2;
+                        break;
+                    } else {
+                        currentState = State.PTURN;
+                        break;
+                    }
                 }
             }
         }
+
+        // Victory
+        if (victory == 1)
+        {
+            System.out.println("You win!");
+        } else {
+            System.out.println("Game over!");
+        }
+    }
+
+    static void attack(String aName, int [] aStats, String bName, int [] bStats)
+    {
+        // Damage calculations
+        int damage = aStats[2] - bStats[6]; // Damage calculation is a.atk - b.def
+        if (damage < 0) damage = 0; // Prevents damage from being negative
+        bStats[0] -= damage;
+        if (bStats[0] < 0) bStats[0] = 0; // Prevents hp from being negative
+
+        // Print statements
+        System.out.println(aName+" attacks!");
+        System.out.println(bName+" takes "+damage+" damage.");
+        System.out.println(bName+" has "+bStats[0]+" HP left.");
     }
 }
